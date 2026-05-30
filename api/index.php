@@ -39,6 +39,5 @@ $app->useStoragePath($storagePath);
 
 // Handle the request
 $request = Illuminate\Http\Request::capture();
-$response = $app->handleRequest($request);
-$response->send();
+$app->handleRequest($request);
 
