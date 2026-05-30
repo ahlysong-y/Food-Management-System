@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// 🛠️ កែប្រែត្រង់នេះ៖ ឱ្យវាបង្វែរទិសដៅ (Redirect) ទៅកាន់ផ្លូវ /admin ដោយស្វ័យប្រវត្តិ
+// 🛠️ បើចង់ឱ្យរុញចំទៅកាន់ទំព័រ Login ផ្ទាល់តែម្តង៖
 Route::get('/', function () {
-    return redirect('/admin');
+    return redirect('/admin/login');
 });
