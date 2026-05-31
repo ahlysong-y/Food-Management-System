@@ -28,14 +28,6 @@
             "dest": "/public/build/$1"
         },
         {
-            "src": "/livewire/livewire.js",
-            "dest": "/public/vendor/livewire/livewire.js"
-        },
-        {
-            "src": "/livewire/livewire.min.js.map",
-            "dest": "/public/vendor/livewire/livewire.min.js.map"
-        },
-        {
             "src": "/favicon.ico",
             "dest": "/public/favicon.ico"
         },

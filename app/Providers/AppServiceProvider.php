@@ -23,14 +23,6 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        Livewire::setUpdateRoute(function ($handle) {
-            return Route::post('/livewire/update', $handle);
-        });
-
-        Livewire::setScriptRoute(function ($handle) {
-            return Route::get('/livewire/livewire.js', $handle);
-        });
-
         // ចុះឈ្មោះប្រព័ន្ធតាមដានការ Update លើ Table Order
         Order::observe(OrderObserver::class);
     }
