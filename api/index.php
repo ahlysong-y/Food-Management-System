@@ -41,4 +41,11 @@ putenv('APP_STORAGE=' . $storagePath);
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 $app->useStoragePath($storagePath);
 
-$app->handleRequest(Request::capture());
+// --- កូដដែលបានកែសម្រួលដើម្បីគាំទ្រ Vercel HTTP/HTTPS Session ---
+$request = Request::capture();
+// បង្ខំឱ្យស្គាល់ HTTPS លើ Vercel ដើម្បីកុំឱ្យបាត់បង់ Session / CSRF Token
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+
+$app->handleRequest($request);
