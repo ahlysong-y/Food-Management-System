@@ -42,13 +42,13 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 $app->useStoragePath($storagePath);
 
 // --- កូដដោះស្រាយបញ្ហា Proxy & Protocol លើ Vercel ---
-$request = Request::capture();
-
 // បង្ខំឱ្យស្គាល់ HTTPS និង Trust Proxies របស់ Vercel ដើម្បីកុំឱ្យបាត់បង់ Session / CSRF Token
 unset($_SERVER['HTTPS']);
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
 }
+
+$request = Request::capture();
 
 // ដំណើរការ Request តាមទម្រង់ថ្មីរបស់ Laravel
 $app->handleRequest($request);
