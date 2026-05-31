@@ -41,14 +41,20 @@ putenv('APP_STORAGE=' . $storagePath);
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 $app->useStoragePath($storagePath);
 
-// --- កូដដោះស្រាយបញ្ហា Proxy & Protocol លើ Vercel ---
-// បង្ខំឱ្យស្គាល់ HTTPS និង Trust Proxies របស់ Vercel ដើម្បីកុំឱ្យបាត់បង់ Session / CSRF Token
-unset($_SERVER['HTTPS']);
+// --- កូដដោះស្រាយបញ្ហា Proxy & Protocol លើ Vercel (លំដាប់ត្រឹមត្រូវ) ---
+
+// អនុញ្ញាតឱ្យស្គាល់ HTTPS មុនពេលបង្កើត Request Instance
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
 }
 
+// ចាប់យក Request បន្ទាប់ពីបានកំណត់ $_SERVER['HTTPS'] រួចរាល់
 $request = Request::capture();
 
-// ដំណើរការ Request តាមទម្រង់ថ្មីរបស់ Laravel
+// បង្ខំឱ្យ Laravel យល់ថា Request នេះជា Secure (HTTPS) ជានិច្ចនៅលើ Vercel
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $request->server->set('HTTPS', 'on');
+}
+
+// ដំណើរការ Request តាមទម្រង់ថ្មីរបស់ Laravel 11
 $app->handleRequest($request);
