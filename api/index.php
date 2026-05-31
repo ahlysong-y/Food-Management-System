@@ -41,14 +41,4 @@ putenv('APP_STORAGE=' . $storagePath);
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 $app->useStoragePath($storagePath);
 
-// ៧. បង្កើត HTTP Kernel ដើម្បីដំណើរការ Request និងហៅមុខងារ send() (Fix Error "send() on null")
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-
-$response = $kernel->handle(
-    $request = Request::capture()
-);
-
-// ៨. ផ្ញើលទ្ធផលទៅកាន់ Web Browser
-$response->send();
-
-$kernel->terminate($request, $response);
+$app->handleRequest(Request::capture());

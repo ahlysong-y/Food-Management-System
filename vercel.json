@@ -29,7 +29,11 @@
         },
         {
             "src": "/livewire/livewire.js",
-            "dest": "/public/livewire/livewire.js"
+            "dest": "/public/vendor/livewire/livewire.js"
+        },
+        {
+            "src": "/livewire/livewire.min.js.map",
+            "dest": "/public/vendor/livewire/livewire.min.js.map"
         },
         {
             "src": "/favicon.ico",
@@ -48,11 +52,9 @@
     "env": {
         "DB_CONNECTION": "sqlite",
         "DB_DATABASE": "/tmp/database.sqlite",
-        "APP_ENV": "student_list",
-        "APP_DEBUG": "false",
-        "APP_URL": "https://studentlist-drab.vercel.app",
+        "APP_ENV": "production",
+        "APP_DEBUG": "true",
         "APP_KEY": "base64:xTIevH37mZoJSezaroTJSer/ib7kD5n15pkhNSpuJk4=",
-
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",

@@ -6,6 +6,8 @@ use App\Models\Order;
 use App\Observers\OrderObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,15 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production') || env('VERCEL') || env('VERCEL_ENV') || isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
             URL::forceScheme('https');
         }
+
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/livewire/update', $handle);
+        });
+
+        Livewire::setScriptRoute(function ($handle) {
+            return Route::get('/livewire/livewire.js', $handle);
+        });
+
         // ចុះឈ្មោះប្រព័ន្ធតាមដានការ Update លើ Table Order
         Order::observe(OrderObserver::class);
     }
