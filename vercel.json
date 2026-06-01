@@ -51,7 +51,7 @@
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
+        "APP_DEBUG": "true",
         "APP_KEY": "base64:xTIevH37mZoJSezaroTJSer/ib7kD5n15pkhNSpuJk4=",
         "CACHE_STORE": "array",
         "CACHE_DRIVER": "array",
