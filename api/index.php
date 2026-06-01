@@ -37,24 +37,22 @@ foreach ($directories as $directory) {
 $_ENV['APP_STORAGE'] = $storagePath;
 putenv('APP_STORAGE=' . $storagePath);
 
-// ៦. ទាញយក App Instance និងកំណត់ផ្លូវ Storage ទៅកាន់ /tmp ផ្លូវការ
+// ៦. ទាញយក App Instance តែម្តងគត់ និងកំណត់ផ្លូវ Storage ទៅកាន់ /tmp ផ្លូវការ
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 $app->useStoragePath($storagePath);
 
-// --- កូដដោះស្រាយបញ្ហា Proxy & Protocol លើ Vercel (លំដាប់ត្រឹមត្រូវ) ---
-
-// អនុញ្ញាតឱ្យស្គាល់ HTTPS មុនពេលបង្កើត Request Instance
+// ៧. កូដដោះស្រាយបញ្ហា Proxy & Protocol លើ Vercel (រៀបចំឱ្យស្គាល់ HTTPS មុនពេល Capture Request)
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
+    $_SERVER['SERVER_PORT'] = 443;
 }
 
-// ចាប់យក Request បន្ទាប់ពីបានកំណត់ $_SERVER['HTTPS'] រួចរាល់
+// ៨. ចាប់យក Request 
 $request = Request::capture();
 
-// បង្ខំឱ្យ Laravel យល់ថា Request នេះជា Secure (HTTPS) ជានិច្ចនៅលើ Vercel
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $request->server->set('HTTPS', 'on');
 }
 
-// ដំណើរការ Request តាមទម្រង់ថ្មីរបស់ Laravel 11
+// ៩. ដំណើរការ Request តាមទម្រង់ផ្លូវការរបស់ Laravel 11
 $app->handleRequest($request);
