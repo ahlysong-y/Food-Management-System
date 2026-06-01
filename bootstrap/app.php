@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // 💡 បន្ថែមចំណុចនេះ៖ ប្រាប់ឱ្យ Laravel ទុកចិត្តលើការបញ្ជូន Proxies របស់ Vercel ជានិច្ច
+        // អនុញ្ញាតឱ្យ Laravel ទុកចិត្តលើ Proxy របស់ Vercel ការពារបញ្ហាទាត់ចោល POST Method
         $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
