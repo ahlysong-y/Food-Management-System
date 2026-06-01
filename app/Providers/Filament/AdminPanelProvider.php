@@ -11,7 +11,6 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color; // ត្រូវប្រាកដថាមានបន្ទាត់នេះ
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
