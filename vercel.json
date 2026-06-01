@@ -50,8 +50,6 @@
     ],
     "outputDirectory": "public",
     "env": {
-        "DB_CONNECTION": "mysql",
-        "DB_DATABASE": "/tmp/database.mysql",
         "APP_ENV": "production",
         "APP_DEBUG": "false",
         "APP_KEY": "base64:xTIevH37mZoJSezaroTJSer/ib7kD5n15pkhNSpuJk4=",
@@ -59,6 +57,8 @@
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
-        "SESSION_LIFETIME": "120"
+        "SESSION_LIFETIME": "120",
+        "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+        "DB_CONNECTION": "mysql"
     }
 }
