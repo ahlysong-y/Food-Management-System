@@ -38,6 +38,11 @@ $_ENV['APP_STORAGE'] = $storagePath;
 putenv('APP_STORAGE=' . $storagePath);
 
 // ៦. កូដដោះស្រាយបញ្ហា Proxy & Protocol លើ Vercel មុនពេល Capture Request
+$app = require_once __DIR__ . '/../bootstrap/app.php';
+
+// កំណត់ផ្លូវ Storage ទៅកាន់ /tmp ផ្លូវការ
+$app->useStoragePath($storagePath);
+
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
     $_SERVER['SERVER_PORT'] = 443;
@@ -46,19 +51,5 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
 // ៧. ចាប់យក Request Object
 $request = Request::capture();
 
-if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-    $request->server->set('HTTPS', 'on');
-}
-
 // ៨. ⚠️ ចំណុចគន្លឹះ៖ អនុញ្ញាតឱ្យ Laravel 11 ចាប់ផ្តើម និងដំណើរការ Request តាមលំដាប់លំដោយត្រឹមត្រូវ
-/** @var \Illuminate\Foundation\Application $app */
-$app = require_once __DIR__ . '/../bootstrap/app.php';
-
-// កំណត់ផ្លូវ Storage ទៅកាន់ /tmp ផ្លូវការ
-$app->useStoragePath($storagePath);
-
-// ដំណើរការ Request និងបញ្ជូន Response ទៅកាន់ Browser
-$response = $app->handle($request);
-$response->send();
-
-$app->terminate($request, $response);
+$app->handleRequest($request);
