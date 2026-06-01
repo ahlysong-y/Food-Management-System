@@ -10,16 +10,10 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
-        // ប្រើប្រាស់មុខងារ Trust Proxies របស់ Laravel 11 សម្រាប់ Vercel
+    ->withMiddleware(function (Middleware $middleware) {
+        // 💡 បន្ថែមចំណុចនេះ៖ ប្រាប់ឱ្យ Laravel ទុកចិត្តលើការបញ្ជូន Proxies របស់ Vercel ជានិច្ច
         $middleware->trustProxies(at: '*');
-
-        // បើកសិទ្ធិឱ្យ Livewire អាចដំណើរការដោយមិនគាំង CSRF Token លើ Vercel
-        $middleware->validateCsrfTokens(except: [
-            'livewire/update',
-            'api/livewire/update',
-        ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
+    ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
