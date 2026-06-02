@@ -23,16 +23,16 @@ class RecipeResource extends Resource
                 Forms\Components\Select::make('menu_item_id')
                     ->relationship('menuItem', 'name')
                     ->required()
-                    ->label('មុខម្ហូប'),
+                    ->label('Menu Item'),
                 Forms\Components\Select::make('ingredient_id')
                     ->relationship('ingredient', 'name')
                     ->required()
-                    ->label('គ្រឿងផ្សំ/វត្ថុធាតុដើម'),
+                    ->label('Ingredient / Raw Material'),
                 Forms\Components\TextInput::make('quantity_required')
                     ->numeric()
                     ->required()
-                    ->placeholder('ឧទាហរណ៍៖ 0.20 (មានន័យថា ២ខាំ)')
-                    ->label('ចំនួនដែលត្រូវប្រើ'),
+                    ->placeholder('Example: 0.20 (means 200g or 0.2 units)')
+                    ->label('Quantity Required'),
             ]);
     }
 
@@ -40,10 +40,10 @@ class RecipeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('menuItem.name')->searchable()->label('មុខម្ហូប'),
-                Tables\Columns\TextColumn::make('ingredient.name')->label('គ្រឿងផ្សំ'),
-                Tables\Columns\TextColumn::make('quantity_required')->label('បរិមាណប្រើប្រាស់'),
-                Tables\Columns\TextColumn::make('ingredient.unit')->label('ឯកតា'),
+                Tables\Columns\TextColumn::make('menuItem.name')->searchable()->label('Menu Item'),
+                Tables\Columns\TextColumn::make('ingredient.name')->label('Ingredient'),
+                Tables\Columns\TextColumn::make('quantity_required')->label('Quantity Used'),
+                Tables\Columns\TextColumn::make('ingredient.unit')->label('Unit'),
             ]);
     }
 

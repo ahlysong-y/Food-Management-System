@@ -14,41 +14,41 @@ class BranchResource extends Resource
 {
     protected static ?string $model = Branch::class;
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront'; // ប្តូរ Icon ឱ្យស្អាតសមជាសាខាហាង
-    protected static ?string $navigationLabel = 'គ្រប់គ្រងសាខា';
+    protected static ?string $navigationLabel = 'Branch Management';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('ព័ត៌មានសាខាហាង')->schema([
+                Forms\Components\Section::make('Branch Information')->schema([
                     // 🛠️ សំខាន់បំផុត៖ ត្រូវមាន TextInput សម្រាប់ code និង name ដូចខាងក្រោមនេះ
                     Forms\Components\TextInput::make('code')
                         ->required()
                         ->maxLength(255)
-                        ->placeholder('ឧទាហរណ៍៖ B001')
-                        ->label('កូដសាខា'),
+                        ->placeholder('Example: B001')
+                        ->label('Branch Code'),
 
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255)
-                        ->placeholder('ឧទាហរណ៍៖ សាខាភ្នំពេញ')
-                        ->label('ឈ្មោះសាខា'),
+                        ->placeholder('Example: Phnom Penh Branch')
+                        ->label('Branch Name'),
 
                     Forms\Components\TextInput::make('phone')
                         ->tel()
-                        ->label('លេខទូរស័ព្ទ'),
+                        ->label('Phone Number'),
 
                     Forms\Components\TextInput::make('email')
                         ->email()
-                        ->label('អ៊ីមែល'),
+                        ->label('Email Address'),
 
                     Forms\Components\Textarea::make('address')
                         ->columnSpanFull()
-                        ->label('អាសយដ្ឋាន'),
+                        ->label('Address'),
 
                     Forms\Components\Toggle::make('status')
                         ->default(true)
-                        ->label('ស្ថានភាពបើកដំណើរការ'),
+                        ->label('Status'),
                 ])->columns(2)
             ]);
     }
@@ -57,11 +57,11 @@ class BranchResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('code')->searchable()->label('កូដសាខា'),
-                Tables\Columns\TextColumn::make('name')->searchable()->label('ឈ្មោះសាខា'),
-                Tables\Columns\TextColumn::make('phone')->label('លេខទូរស័ព្ទ'),
-                Tables\Columns\IconColumn::make('status')->boolean()->label('ដំណើរការ'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('ថ្ងៃបង្កើត'),
+                Tables\Columns\TextColumn::make('code')->searchable()->label('Branch Code'),
+                Tables\Columns\TextColumn::make('name')->searchable()->label('Branch Name'),
+                Tables\Columns\TextColumn::make('phone')->label('Phone Number'),
+                Tables\Columns\IconColumn::make('status')->boolean()->label('Status'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Created At'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

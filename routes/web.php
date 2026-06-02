@@ -2,16 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
-// នៅពេលអ្នកប្រើប្រាស់បើកមកកាន់ទំព័រដើម (/) ឱ្យវា Re-direct ទៅកាន់ Dashboard របស់ Filament ដោយស្វ័យប្រវត្ត
 Route::get('/', function () {
     return redirect('/admin');
-});
-Route::get('/test', function () {
-    return 'Laravel Works';
 });

@@ -13,23 +13,23 @@ use Filament\Tables\Table;
 class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
-    protected static ?string $navigationIcon = 'heroicon-o-user-group'; // Icon ក្រុមការងារ/តួនាទី
+    protected static ?string $navigationIcon = 'heroicon-o-user-group'; // Team/Role Icon
     protected static ?string $navigationLabel = 'Roles';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('ព័ត៌មានតួនាទីបុគ្គលិក')->schema([
-                    // 🛠️ សំខាន់បំផុត៖ ត្រូវមាន TextInput សម្រាប់ name
+                Forms\Components\Section::make('Employee Role Information')->schema([
+                    // 🛠️ Important: Must include TextInput for name
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255)
-                        ->placeholder('ឧទាហរណ៍៖ Cashier, Chef, Waiter')
-                        ->label('ឈ្មោះតួនាទី'),
+                        ->placeholder('Example: Cashier, Chef, Waiter')
+                        ->label('Role Name'),
 
                     // Forms\Components\Textarea::make('description')
-                    //     ->label('ការពិពណ៌នាពីភារកិច្ច')
+                    //     ->label('Job Description')
                     //     ->rows(3),
                 ])->columns(1)
             ]);
@@ -39,9 +39,9 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable()->label('ឈ្មោះតួនាទី'),
-                // Tables\Columns\TextColumn::make('description')->limit(50)->label('ការពិពណ៌នា'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('ថ្ងៃបង្កើត'),
+                Tables\Columns\TextColumn::make('name')->searchable()->label('Role Name'),
+                // Tables\Columns\TextColumn::make('description')->limit(50)->label('Description'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Created At'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

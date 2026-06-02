@@ -14,17 +14,17 @@ class IngredientResource extends Resource
 {
     protected static ?string $model = Ingredient::class;
     protected static ?string $navigationIcon = 'heroicon-o-cube';
-    protected static ?string $navigationLabel = 'Raw materials in stock';
+    protected static ?string $navigationLabel = 'Raw Materials In Stock';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('ingredient_code')->required()->label('កូដគ្រឿងផ្សំ'),
-                Forms\Components\TextInput::make('name')->required()->label('ឈ្មោះគ្រឿងផ្សំ'),
-                Forms\Components\TextInput::make('unit')->placeholder('គីឡូក្រាម, លីត្រ, កញ្ចប់...')->required()->label('ឯកតារាប់'),
-                Forms\Components\TextInput::make('current_stock')->numeric()->default(0)->label('ស្តុកបច្ចុប្បន្ន'),
-                Forms\Components\TextInput::make('minimum_stock')->numeric()->default(5)->label('ស្តុកទាបបំផុត (ត្រូវទិញថែម)'),
+                Forms\Components\TextInput::make('ingredient_code')->required()->label('Ingredient Code'),
+                Forms\Components\TextInput::make('name')->required()->label('Ingredient Name'),
+                Forms\Components\TextInput::make('unit')->placeholder('kg, liters, packs...')->required()->label('Unit of Measure'),
+                Forms\Components\TextInput::make('current_stock')->numeric()->default(0)->label('Current Stock'),
+                Forms\Components\TextInput::make('minimum_stock')->numeric()->default(5)->label('Minimum Stock (Reorder Alert)'),
             ]);
     }
 
@@ -32,15 +32,15 @@ class IngredientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('ingredient_code')->label('កូដ'),
-                Tables\Columns\TextColumn::make('name')->searchable()->label('ឈ្មោះ'),
-                Tables\Columns\TextColumn::make('current_stock')->label('ស្តុកបច្ចុប្បន្ន'),
-                Tables\Columns\TextColumn::make('unit')->label('ឯកតា'),
+                Tables\Columns\TextColumn::make('ingredient_code')->label('Code'),
+                Tables\Columns\TextColumn::make('name')->searchable()->label('Name'),
+                Tables\Columns\TextColumn::make('current_stock')->label('Current Stock'),
+                Tables\Columns\TextColumn::make('unit')->label('Unit'),
 
-                // ពណ៌នាសម្គាល់៖ បើស្តុកបច្ចុប្បន្នទាបជាងស្តុកអប្បបរមា វានឹងចេញពណ៌ក្រហមព្រមានភ្លាម
+                // Warning indicator: If current stock is less than or equal to minimum stock, it highlights in danger color (red)
                 Tables\Columns\TextColumn::make('minimum_stock')
                     ->color(fn($record) => $record->current_stock <= $record->minimum_stock ? 'danger' : 'success')
-                    ->label('ស្តុកកំណត់ប្រកាសអាសន្ន'),
+                    ->label('Alert Level Stock'),
             ]);
     }
 

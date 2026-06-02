@@ -20,14 +20,14 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                // ត្រូវប្រាកដថាមាន TextInput សម្រាប់ name ដូចខាងក្រោមនេះ
+                // Make sure there is a TextInput for the name as below
                 Forms\Components\TextInput::make('name')
-                    ->required() // បង្ខំឱ្យវាយបញ្ចូល ដាច់ខាតមិនឱ្យទទេ
+                    ->required() // Force input, cannot be empty
                     ->maxLength(255)
-                    ->label('ឈ្មោះប្រភេទមុខម្ហូប'),
+                    ->label('Category Name'),
 
                 Forms\Components\Textarea::make('description')
-                    ->label('ការពិពណ៌នាបន្ថែម')
+                    ->label('Description')
                     ->rows(3),
             ])->columns(1);
     }
@@ -36,9 +36,9 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable()->label('ឈ្មោះប្រភេទ'),
-                Tables\Columns\TextColumn::make('description')->limit(50)->label('ការពិពណ៌នា'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('ថ្ងៃបង្កើត'),
+                Tables\Columns\TextColumn::make('name')->searchable()->label('Category Name'),
+                Tables\Columns\TextColumn::make('description')->limit(50)->label('Description'),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Created At'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

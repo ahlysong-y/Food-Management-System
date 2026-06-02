@@ -13,8 +13,8 @@ use Filament\Tables\Table;
 class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
-    protected static ?string $navigationIcon = 'heroicon-o-users'; // បង្ហាញ Icon លើ Menu
-    protected static ?string $navigationLabel = 'Employees'; // ប្ដូរឈ្មោះ Menu ទៅជា "Employees"
+    protected static ?string $navigationIcon = 'heroicon-o-users'; // Show Icon on Menu
+    protected static ?string $navigationLabel = 'Employees'; // Change Menu Name to "Employees"
 
     public static function form(Form $form): Form
     {
@@ -23,35 +23,35 @@ class EmployeeResource extends Resource
                 Forms\Components\Select::make('branch_id')
                     ->relationship('branch', 'name')
                     ->required()
-                    ->label('សាខា'),
+                    ->label('Branch'),
                 Forms\Components\Select::make('role_id')
                     ->relationship('role', 'name')
                     ->required()
-                    ->label('តួនាទី'),
+                    ->label('Role'),
                 Forms\Components\TextInput::make('employee_code')
                     ->required()
                     ->unique(ignoreRecord: true)
-                    ->label('កូដបុគ្គលិក'),
+                    ->label('Employee Code'),
                 Forms\Components\TextInput::make('fullname')
                     ->required()
-                    ->label('ឈ្មោះពេញ'),
+                    ->label('Full Name'),
                 Forms\Components\Select::make('gender')
                     ->options([
-                        'Male' => 'ប្រុស',
-                        'Female' => 'ស្រី',
+                        'Male' => 'Male',
+                        'Female' => 'Female',
                     ])
                     ->required()
-                    ->label('ភេទ'),
+                    ->label('Gender'),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
-                    ->label('លេខទូរស័ព្ទ'),
+                    ->label('Phone Number'),
                 Forms\Components\TextInput::make('salary')
                     ->numeric()
                     ->prefix('$')
-                    ->label('ប្រាក់ខែ'),
+                    ->label('Salary'),
                 Forms\Components\Toggle::make('status')
                     ->default(true)
-                    ->label('ស្ថានភាពការងារ'),
+                    ->label('Employment Status'),
             ]);
     }
 
@@ -59,15 +59,15 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee_code')->searchable()->label('កូដ'),
-                Tables\Columns\TextColumn::make('fullname')->searchable()->label('ឈ្មោះ'),
-                Tables\Columns\TextColumn::make('branch.name')->label('សាខា'),
-                Tables\Columns\TextColumn::make('role.name')->label('តួនាទី'),
-                Tables\Columns\TextColumn::make('salary')->money('USD')->label('ប្រាក់ខែ'),
-                Tables\Columns\IconColumn::make('status')->boolean()->label('សកម្ម'),
+                Tables\Columns\TextColumn::make('employee_code')->searchable()->label('Code'),
+                Tables\Columns\TextColumn::make('fullname')->searchable()->label('Name'),
+                Tables\Columns\TextColumn::make('branch.name')->label('Branch'),
+                Tables\Columns\TextColumn::make('role.name')->label('Role'),
+                Tables\Columns\TextColumn::make('salary')->money('USD')->label('Salary'),
+                Tables\Columns\IconColumn::make('status')->boolean()->label('Active'),
             ])
             ->filters([
-                // អាចបន្ថែម Filter តាមសាខា ឬតួនាទីនៅទីនេះ
+                // Can add filters by branch or role here
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

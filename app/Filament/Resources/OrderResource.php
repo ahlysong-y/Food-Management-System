@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
 use App\Models\Order;
-use App\Models\MenuItem; // 🛠️ បានបន្ថែមការនាំចូល Model នេះដើម្បីដោះស្រាយ Error
+use App\Models\MenuItem; // 🛠️ Added this model import to resolve undefined class errors
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -21,32 +21,32 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('ព័ត៌មានទូទៅ')->schema([
+                Forms\Components\Section::make('General Information')->schema([
                     Forms\Components\Select::make('branch_id')
                         ->relationship('branch', 'name')
                         ->required()
-                        ->label('សាខា'),
+                        ->label('Branch'),
                     Forms\Components\Select::make('table_id')
                         ->relationship('table', 'table_no')
-                        ->label('លេខតុ'),
+                        ->label('Table Number'),
                     Forms\Components\DateTimePicker::make('order_date')
                         ->default(now())
                         ->required()
-                        ->label('កាលបរិច្ឆេទ'),
+                        ->label('Order Date'),
                     Forms\Components\Select::make('status')
                         ->options([
-                            'Pending' => 'រង់ចាំ (Pending)',
-                            'Cooking' => 'កំពុងធ្វើ (Cooking)',
-                            'Served' => 'បានជូនភ្ញៀវ (Served)',
-                            'Completed' => 'រួចរាល់ (Completed)',
-                            'Cancelled' => 'បោះបង់ (Cancelled)',
+                            'Pending' => 'Pending',
+                            'Cooking' => 'Cooking',
+                            'Served' => 'Served',
+                            'Completed' => 'Completed',
+                            'Cancelled' => 'Cancelled',
                         ])
                         ->default('Pending')
                         ->required()
-                        ->label('ស្ថានភាព'),
+                        ->label('Status'),
                 ])->columns(2),
 
-                Forms\Components\Section::make('បញ្ជីមុខម្ហូបដែលកុម្ម៉ង់')->schema([
+                Forms\Components\Section::make('Ordered Items List')->schema([
                     Forms\Components\Repeater::make('orderDetails')
                         ->relationship()
                         ->schema([
@@ -54,46 +54,46 @@ class OrderResource extends Resource
                                 ->relationship('menuItem', 'name')
                                 ->required()
                                 ->reactive()
-                                // នៅពេលរើសមុខម្ហូប ឱ្យវាទៅទាញតម្លៃលក់មកបំពេញក្នុង unit_price និងគណនា subtotal ភ្លាមៗ
+                                // When an item is selected, fetch its selling price to fill unit_price and calculate the subtotal immediately
                                 ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
                                     $price = MenuItem::find($state)?->selling_price ?? 0;
                                     $qty = (int)($get('qty') ?? 1);
                                     $set('unit_price', $price);
                                     $set('subtotal', $price * $qty);
                                 })
-                                ->label('មុខម្ហូប'),
+                                ->label('Menu Item'),
 
                             Forms\Components\TextInput::make('qty')
                                 ->numeric()
                                 ->default(1)
                                 ->required()
                                 ->reactive()
-                                // នៅពេលប្តូរចំនួនចាន ឱ្យវាគណនា subtotal ឡើងវិញ
+                                // When quantity changes, recalculate the item subtotal
                                 ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
                                     $price = (float)($get('unit_price') ?? 0);
                                     $set('subtotal', $price * (int)$state);
                                 })
-                                ->label('ចំនួន'),
+                                ->label('Quantity'),
 
                             Forms\Components\TextInput::make('unit_price')
                                 ->numeric()
                                 ->prefix('$')
                                 ->disabled()
                                 ->dehydrated()
-                                ->label('តម្លៃរាយ'),
+                                ->label('Unit Price'),
 
                             Forms\Components\TextInput::make('subtotal')
                                 ->numeric()
                                 ->prefix('$')
                                 ->disabled()
                                 ->dehydrated()
-                                ->label('សរុបរង'),
+                                ->label('Subtotal'),
                         ])
                         ->columns(4)
-                        ->createItemButtonLabel('កុម្ម៉ង់មុខម្ហូបថែម')
-                        ->live() // ធ្វើឱ្យការប្រែប្រួលរត់ទៅក្រឡេកមើលទំព័រទាំងមូល
+                        ->createItemButtonLabel('Add Menu Item')
+                        ->live() // Forces reactive updates to evaluate across the entire form state
 
-                        // មុខងារគណនាទឹកប្រាក់សរុប (Total Amount) នៃគ្រប់មុខម្ហូបបញ្ចូលគ្នា
+                        // Function to calculate the final Total Amount across all repeater items combined
                         ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
                             $repeaters = $get('orderDetails') ?? [];
                             $total = 0;
@@ -103,13 +103,13 @@ class OrderResource extends Resource
                             $set('total_amount', $total);
                         }),
 
-                    // បង្ហាញតម្លៃសរុបចុងក្រោយគេបង្អស់
+                    // Displays the final total amount to be paid
                     Forms\Components\TextInput::make('total_amount')
                         ->numeric()
                         ->prefix('$')
                         ->disabled()
                         ->dehydrated()
-                        ->label('ទឹកប្រាក់សរុបដែលត្រូវបង់'),
+                        ->label('Total Payable Amount'),
                 ])
             ]);
     }
@@ -118,11 +118,11 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('លេខកុម្ម៉ង់'),
-                Tables\Columns\TextColumn::make('table.table_no')->label('លេខតុ'),
-                Tables\Columns\TextColumn::make('order_date')->dateTime()->label('កាលបរិច្ឆេទ'),
-                Tables\Columns\TextColumn::make('status')->label('ស្ថានភាព'),
-                Tables\Columns\TextColumn::make('total_amount')->money('USD')->label('ទឹកប្រាក់សរុប'),
+                Tables\Columns\TextColumn::make('id')->label('Order ID'),
+                Tables\Columns\TextColumn::make('table.table_no')->label('Table Number'),
+                Tables\Columns\TextColumn::make('order_date')->dateTime()->label('Order Date'),
+                Tables\Columns\TextColumn::make('status')->label('Status'),
+                Tables\Columns\TextColumn::make('total_amount')->money('USD')->label('Total Amount'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
